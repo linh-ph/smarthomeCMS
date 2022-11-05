@@ -21,16 +21,16 @@ class APIController extends Controller
         $password = $request->password;
         if (!$token = JWTAuth::attempt(['email' => $email, 'password' => $password])) {
             return response()->json([
-                'success' => false,
+                'status' => false,
                 'messager' => "Đăng nhập thất bại",
             ]);
         }
         $data = User::where('email', $request->email)->first();
         $data->remember_token = $token;
         $data->save();
-        
+
         return response()->json([
-            'success' => true,
+            'status' => true,
             'messager' => "Đăng nhập thành công",
             'data' => $data
         ]);
@@ -46,12 +46,12 @@ class APIController extends Controller
             }
             JWTAuth::invalidate(JWTAuth::getToken());
             return response()->json([
-                'status' => 'success',
+                'status' => true,
                 'message' => 'Đăng xuất thành công',
             ]);
         } catch (JWTException $e) {
             return response()->json([
-                'status' => 'success',
+                'status' => false,
                 'message' => 'Đăng xuất thất bại',
             ]);
         } catch (\Tymon\JWTAuth\Exceptions\TokenExpiredException $e) {
@@ -63,20 +63,20 @@ class APIController extends Controller
         $user = User::where('email', JWTAuth::user()->email)->first();
         if (!isset($user)) {
             return response()->json([
-                'success' => false,
+                'status' => false,
                 'messager' => "Token đã hết hạn, vui lòng đăng nhập lại!",
             ]);
         }
         if ($request->password != $request->re_password) {
             return response()->json([
-                'success' => false,
+                'status' => false,
                 'messager' => "Nhập lại mật khẩu không giống nhau. Vui lòng thử lại!",
             ]);
         }
         $user->password = Hash::make($request->password);
         $user->save();
         return response()->json([
-            'success' => true,
+            'status' => true,
             'messager' => "Đã cập nhật thành công mật khẩu mới!"
         ]);
     }
@@ -86,13 +86,13 @@ class APIController extends Controller
         $user = User::where('email', JWTAuth::user()->email)->first();
         if (!isset($user)) {
             return response()->json([
-                'success' => false,
+                'status' => false,
                 'messager' => "Token đã hết hạn, vui lòng đăng nhập lại!",
             ]);
         }
         if (!isset($request->name) || !isset($request->email)) {
             return response()->json([
-                'success' => false,
+                'status' => false,
                 'messager' => "Vui lòng nhập đầy đủ thông tin",
             ]);
         } else {
@@ -101,14 +101,14 @@ class APIController extends Controller
             $user->save();
             if (!$token = JWTAuth::attempt(['email' => $request->email, 'password' => $request->password])) {
                 return response()->json([
-                    'success' => false,
+                    'status' => false,
                     'messager' => "Cập nhật thất bại",
                 ]);
             } else {
                 $user->remember_token = $token;
                 $user->save();
                 return response()->json([
-                    'success' => true,
+                    'status' => true,
                     'messager' => "Cập nhật thành công",
                     'data' => $user
                 ]);

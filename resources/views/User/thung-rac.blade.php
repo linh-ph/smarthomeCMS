@@ -74,8 +74,6 @@
                                 <tr>
                                 <th>ID</th>
 	                            <th>Họ và tên</th>
-	                            <th>Tên đăng nhập</th>
-	                            <th>Số điện thoại</th>
 	                            <th>Email</th>
 	                            <th>Ngày tạo</th>
 	                            <th></th>
@@ -86,8 +84,6 @@
                                     <tr>
                                         <td>{{ $user->id }}</td>
                                         <td>{{ $user->name }}</td>
-                                        <td>{{ $user->username }}</td>
-                                        <td>{{ $user->phone }}</td>
                                         <td>{{ $user->email }}</td>
                                         <td>{{ $user->created_at }}</td>
                                         <td>

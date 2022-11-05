@@ -40,15 +40,7 @@
                         <input value="{{ $user->name }}" type="text" class="form-control" id="name" name="name" placeholder="Nhập tên người dùng" required>
                     </div>
                     <div class="form-group">
-                        <label for="username">Tên đăng nhập</label>
-                        <input value="{{ $user->username }}" type="text" class="form-control" id="username" name="username" placeholder="Nhập tên đăng nhập" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="phone">Số điện thoại</label>
-                        <input value="{{ $user->phone }}" type="text" class="form-control" id="phone" name="phone" placeholder="Nhập số điện thoại" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="username">Email</label>
+                        <label for="email">Email</label>
                         <input value="{{ $user->email }}" type="text" class="form-control" id="email" name="email" placeholder="Nhập email" required>
                     </div>
                     <button type="submit" class="btn btn-info waves-effect waves-light"><i class="mdi mdi-content-save"></i> Lưu</button>

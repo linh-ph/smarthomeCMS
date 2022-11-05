@@ -373,18 +373,6 @@
                     </li>
 
                     <li class="has-submenu">
-                        <a href="{{ route('quan-tri-vien.danh-sach') }}"><i class="fas fa-users-cog"></i> Quản trị viên <div class="arrow-down"></div></a>
-                        <ul class="submenu">
-                            <li>
-                                <a href="{{ route('quan-tri-vien.them-moi') }}">Thêm quản trị viên</a>
-                            </li>
-                            <li>
-                                <a href="{{ route('quan-tri-vien.thung-rac') }}">Thùng rác</a>
-                            </li>
-                        </ul>
-                    </li>
-
-                    <li class="has-submenu">
                         <a href="{{ route('nguoi-dung.thong-ke') }}">
                             <i class="fas fa-chart-bar"></i>Thống kê <div class="arrow-down"></div>
                         </a>

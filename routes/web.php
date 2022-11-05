@@ -61,15 +61,15 @@ Route::middleware('auth:web')->group(function(){
 
 	Route::prefix('quan-tri-vien')->group(function(){
 		Route::name('quan-tri-vien.')->group(function(){
-			Route::get('/','LoginControllers@index')->name('danh-sach');
-			Route::get('xoa/{id}','LoginControllers@destroy')->name('xoa');
-			Route::get('/them-moi', 'LoginControllers@create')->name('them-moi');
-			Route::post('/them-moi', 'LoginControllers@store')->name('xl-them-moi');
-			Route::get('/cap-nhat/{id}', 'LoginControllers@edit')->name('cap-nhat');
-			Route::post('/cap-nhat/{id}', 'LoginControllers@update')->name('xl-cap-nhat');
-			Route::get('/thung-rac', 'LoginControllers@bin')->name('thung-rac');
-			Route::get('restore/{id}','LoginControllers@restore')->name('restore');
-			Route::get('delete/{id}','LoginControllers@delete')->name('delete');
+			Route::get('/','QuanTriVienController@index')->name('danh-sach');
+			Route::get('xoa/{id}','QuanTriVienController@destroy')->name('xoa');
+			Route::get('/them-moi', 'QuanTriVienController@create')->name('them-moi');
+			Route::post('/them-moi', 'QuanTriVienController@store')->name('xl-them-moi');
+			Route::get('/cap-nhat/{id}', 'QuanTriVienController@edit')->name('cap-nhat');
+			Route::post('/cap-nhat/{id}', 'QuanTriVienController@update')->name('xl-cap-nhat');
+			Route::get('/thung-rac', 'QuanTriVienController@bin')->name('thung-rac');
+			Route::get('restore/{id}','QuanTriVienController@restore')->name('restore');
+			Route::get('delete/{id}','QuanTriVienController@delete')->name('delete');
 		});
 	});
 

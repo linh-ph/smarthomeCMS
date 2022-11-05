@@ -53,23 +53,15 @@
                         <input value="{{ old('name') }}" type="text" class="form-control" id="name" name="name" placeholder="Nhập tên người dùng" required>
                     </div>
                     <div class="form-group">
-                        <label for="username">Tên đăng nhập</label>
-                        <input value="{{ old('username') }}" type="text" class="form-control" id="username" name="username" placeholder="Nhập tên đăng nhập" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="phone">Số điện thoại</label>
-                        <input value="{{ old('phone') }}" type="text" class="form-control" id="phone" name="phone" placeholder="Nhập số điện thoại" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="username">Email</label>
+                        <label for="email">Email</label>
                         <input value="{{ old('email') }}" type="text" class="form-control" id="email" name="email" placeholder="Nhập email" required>
                     </div>
                     <div class="form-group">
-                        <label for="username">Mật khẩu</label>
+                        <label for="password">Mật khẩu</label>
                         <input value="{{ old('password') }}" type="password" class="form-control" id="password" name="password" placeholder="Nhập mật khẩu" required>
                     </div>
                     <div class="form-group">
-                        <label for="username">Nhập lại mật khẩu</label>
+                        <label for="repassword">Nhập lại mật khẩu</label>
                         <input value="{{ old('repassword') }}" type="password" class="form-control" id="repassword" name="repassword" placeholder="Nhập lại mật khẩu" required>
                     </div>
                     <button type="submit" class="btn btn-info waves-effect waves-light">

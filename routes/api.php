@@ -22,9 +22,6 @@ Route::group([
     'prefix' => 'v1'
 
 ], function ($router) {
-    Route::get('/login', function (Request $request) {
-        return 'demo';
-    });
 });
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
@@ -38,7 +35,13 @@ Route::post('login', 'APIController@login');
 Route::post('logout', 'APIController@logout');
 
 Route::post('quen-mat-khau', 'APIController@quenMatKhau');
-Route::put('cap-nhat-tai-khoan/{id}', 'APIController@capNhat');
-Route::middleware(['assign.guard:api', 'jwt.auth'])->group(function () {
+
+Route::group(['middleware' => ['jwt.verify']], function() {
     Route::get('user-info', 'APIcontroller@getUserInfo');
+    Route::get('get-notification', 'APIController@getNotification');
+    
+});
+
+Route::middleware('jwt.auth')->group(function () {
+    Route::put('cap-nhat-tai-khoan/{id}', 'APIController@capNhat');
 });

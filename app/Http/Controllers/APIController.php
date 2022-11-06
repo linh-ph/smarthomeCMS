@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Api\PushNotification;
+use App\Devices;
+use App\NotificationLog;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use App\User;
 use Tymon\JWTAuth\Exceptions\JWTException;
-use Tymon\JWTAuth\Facades\JWTAuth;
+use JWTAuth;
+use Exception;
 
 class APIController extends Controller
 {
@@ -15,6 +19,7 @@ class APIController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
     public function login(Request $request)
     {
         $email = $request->email;
@@ -28,6 +33,37 @@ class APIController extends Controller
         $data = User::where('email', $request->email)->first();
         $data->remember_token = $token;
         $data->save();
+        $checkDevice = Devices::where([['user_id', $data->id], ['fcm_token', $request->fcm_token]])->first();
+        if (!isset($checkDevice)) {
+            $checkDevice = Devices::where('user_id', $data->id)->get();
+            if (count($checkDevice) > 3) {
+                $device = Devices::where('user_id', $data->id)->orderBy('id', 'asc')->first();
+                $device->fcm_token = $request->fcm_token;
+                if (isset($request->os)) {
+                    $device->OS = $request->os;
+                }
+                $device->save();
+                foreach ($checkDevice as $dv) {
+                    PushNotification::sendNotification($dv->fcm_token, 'Bạn vừa đăng nhập trên thiết bị mới!', 'Nếu không phải Bạn đang thực hiện đăng nhập, vui lòng mở ứng dụng/trang web và ĐỔI MẬT KHẨU ngay lập tức để bảo vệ tài khoản của bạn!', 'Notification');
+                }
+            } else {
+                $device = new Devices();
+                $device->fcm_token = $request->fcm_token;
+                $device->user_id = $data->id;
+                if (isset($request->os)) {
+                    $device->OS = $request->os;
+                }
+                $device->save();
+            }
+            $notification = new NotificationLog();
+            $notification->title = 'Bạn vừa đăng nhập trên thiết bị mới';
+            $notification->message = 'Nếu không phải Bạn đang thực hiện đăng nhập, vui lòng mở ứng dụng/trang web và ĐỔI MẬT KHẨU ngay lập tức để bảo vệ tài khoản của bạn!';
+            $notification->user_id = $data->id;
+            $notification->save();
+        } else {
+            $checkDevice->fcm_token = $request->fcm_token;
+            $checkDevice->save();
+        }
 
         return response()->json([
             'status' => true,
@@ -39,11 +75,6 @@ class APIController extends Controller
     public function logout(Request $request)
     {
         try {
-            $customer = User::find(JWTAuth::user()->id);
-            if ($customer->fcm_token == $request->fcm_token) {
-                $customer->fcm_token = '';
-                $customer->save();
-            }
             JWTAuth::invalidate(JWTAuth::getToken());
             return response()->json([
                 'status' => true,
@@ -118,7 +149,35 @@ class APIController extends Controller
 
     public function getUserInfo(Request $request)
     {
-        $user = JWTAuth::user();
-        return response()->json($user);
+        try {
+            if (JWTAuth::check()) {
+                $userId = JWTAuth::user()->id;
+                $editItem = User::where('id', $userId)->first();
+                if ($request->isMethod('post')) {
+                    $editItem->name = $request->name;
+                    $editItem->save();
+                    return response()->json(['status' => 'success']);
+                }
+                $user = User::where('id', $editItem->id)->first();
+
+                return response()->json($user);
+            }
+            return response()->json(-1);
+        } catch (\Tymon\JWTAuth\Exceptions\TokenExpiredException $e) {
+            return response()->json(-1);
+        } catch (\Tymon\JWTAuth\Exceptions\TokenInvalidException $e) {
+            return response()->json(-1);
+        } catch (\Tymon\JWTAuth\Exceptions\JWTException $e) {
+            return response()->json(-1);
+        } catch (\Tymon\JWTAuth\Exceptions\TokenBlacklistedException $e) {
+            return response()->json(-1);
+        }
+    }
+
+    public function getNotification(Request $request)
+    {
+        $notification = NotificationLog::where('user_id', JWTAuth::user()->id)->paginate(15);
+
+        return response()->json(['status' => true, 'notification' => $notification]);
     }
 }

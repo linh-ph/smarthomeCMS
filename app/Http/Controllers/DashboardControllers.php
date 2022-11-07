@@ -13,7 +13,7 @@ class DashboardControllers extends Controller
         $dataTemp = Features::find(1);
         $tempSlug = $dataTemp->slug;
         $response = Http::withHeaders([
-            'X-AIO-Key' => 'aio_Pmpq76OkpKk8dHuSwTbnL34tBqj1'
+            'X-AIO-Key' => 'aio_ZwDf70T7nbxuiqpGGw5GQuru1k2D'
         ])->get('https://io.adafruit.com/api/v2/tinhphamtrung/feeds/intput-device.'.$tempSlug.'/data');
         
         $data = $response->json();
@@ -23,7 +23,7 @@ class DashboardControllers extends Controller
         $dataGas = Features::find(2);
         $gasSlug = $dataGas->slug;
         $response = Http::withHeaders([
-            'X-AIO-Key' => 'aio_Pmpq76OkpKk8dHuSwTbnL34tBqj1'
+            'X-AIO-Key' => 'aio_ZwDf70T7nbxuiqpGGw5GQuru1k2D'
         ])->get('https://io.adafruit.com/api/v2/tinhphamtrung/feeds/intput-device.'.$gasSlug.'/data');
         
         $dataGas = $response->json();
@@ -34,7 +34,7 @@ class DashboardControllers extends Controller
         $dataSound = Features::find(3);
         $soundSlug = $dataSound->slug;
         $response = Http::withHeaders([
-            'X-AIO-Key' => 'aio_Pmpq76OkpKk8dHuSwTbnL34tBqj1'
+            'X-AIO-Key' => 'aio_ZwDf70T7nbxuiqpGGw5GQuru1k2D'
         ])->get('https://io.adafruit.com/api/v2/tinhphamtrung/feeds/intput-device.'.$soundSlug.'/data');
         
         $dataSound = $response->json();

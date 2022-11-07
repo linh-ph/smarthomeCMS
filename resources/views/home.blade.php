@@ -25,13 +25,13 @@
 
             <div class="mt-1">
                 <div class="float-left" dir="ltr">
-                    <input data-plugin="knob" data-width="64" data-height="64" data-fgColor="#f05050 "
+                    <input id="temp" data-plugin="knob" data-width="64" data-height="64" data-fgColor="#f05050 "
                         data-bgColor="#F9B9B9" value="{{ $value_temp ?? 30 }}"
                         data-skin="tron" data-angleOffset="180" data-readOnly=true
                         data-thickness=".15"/>
                 </div>
                 <div class="text-right">
-                    <h2 class="mt-3 pt-1 mb-1"> {{ $value_temp ?? 30 }} </h2>
+                    <h2 id="temp_text" class="mt-3 pt-1 mb-1"> {{ $value_temp ?? 30 }} </h2>
                     <p class="text-muted mb-0">Xem lịch sử</p>
                 </div>
                 <div class="clearfix"></div>
@@ -46,13 +46,13 @@
 
             <div class="mt-1">
                 <div class="float-left" dir="ltr">
-                    <input data-plugin="knob" data-width="64" data-height="64" data-fgColor="#675db7"
+                    <input id="input-gas" data-plugin="knob" data-width="64" data-height="64" data-fgColor="#675db7"
                         data-bgColor="#e8e7f4" value="{{ $valueGas ?? 10}}"
                         data-skin="tron" data-angleOffset="180" data-readOnly=true
                         data-thickness=".15"/>
                 </div>
                 <div class="text-right">
-                    <h2 class="mt-3 pt-1 mb-1"> {{ $valueGas ?? 10}} </h2>
+                    <h2 id="gas_value" class="mt-3 pt-1 mb-1"> {{ $valueGas ?? 10}} </h2>
                     <p class="text-muted mb-0">Xem lịch sử</p>
                 </div>
                 <div class="clearfix"></div>
@@ -67,13 +67,13 @@
 
             <div class="mt-1">
                 <div class="float-left" dir="ltr">
-                    <input data-plugin="knob" data-width="64" data-height="64" data-fgColor="#23b397"
+                    <input id="input-sound" data-plugin="knob" data-width="64" data-height="64" data-fgColor="#23b397"
                         data-bgColor="#c8ece5" value="{{$valueSound/100 ?? 10}}"
                         data-skin="tron" data-angleOffset="180" data-readOnly=true
                         data-thickness=".15"/>
                 </div>
                 <div class="text-right">
-                    <h2 class="mt-3 pt-1 mb-1"> {{$valueSound ?? 10}} </h2>
+                    <h2 id="sound_text" class="mt-3 pt-1 mb-1"> {{$valueSound ?? 10}} </h2>
                     <p class="text-muted mb-0">Xem lịch sử</p>
                 </div>
                 <div class="clearfix"></div>
@@ -204,15 +204,10 @@
 <!-- Dashboard init -->
 <script src="{{ asset('assets/js/pages/dashboard-2.init.js') }}"></script>
 <script>
-    var data_arr = {{ json_encode($dataArr) }};
-    console.log(data_arr);
+    // var data_arr = {{ json_encode($dataArr) }};
+    // console.log(data_arr);
     var e = {
-        series: [
-            {
-                name: "Nhiệt độ",
-                data: data_arr
-            }
-        ],
+        series: [],
         chart: {
             height: 350,
             type: 'line',
@@ -224,14 +219,22 @@
                 blur: 10,
                 opacity: 0.2
             },
+            animations: {
+                enabled: true,
+                easing: 'linear',
+                dynamicAnimation: {
+                    speed: 1000
+                }
+            },
             toolbar: {
                 show: false
             }
         },
         colors: ['#77B6EA'],
         dataLabels: {
-            enabled: true,
+            enabled: false,
         },
+
         stroke: {
             curve: 'smooth'
         },
@@ -245,19 +248,25 @@
         markers: {
             size: 1
         },
+        noData: {
+            text: 'Loading....'
+        },
         xaxis: {
-            categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
-            title: {
-                text: 'Ngày'
-            }
+            // categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+            // title: {
+            //     text: 'Ngày'
+            // }
+            type: 'category',
+            tickPlacement: 'on'
         },
-        yaxis: {
-            title: {
-                text: 'Nhiệt độ'
-            },
-            min: 5,
-            max: 100
-        },
+        // yaxis: {
+        //     // title: {
+        //     //     text: 'Nhiệt độ'
+        //     // },
+        //     // min: 5,
+        //     // max: 100
+        //     type: 'H:i:s'
+        // },
         legend: {
             position: 'top',
             horizontalAlign: 'right',
@@ -266,15 +275,116 @@
             offsetX: -5
         }
     };
-    new ApexCharts(document.querySelector("#apex-sales-analytics-2"), e).render();
+    var chartNewTemp = new ApexCharts(document.querySelector("#apex-sales-analytics-2"), e); 
+    chartNewTemp.render();
+</script>
+<script>
+function getDataTemp() {
+    var tempUrl = "https://io.adafruit.com/api/v2/tinhphamtrung/feeds/intput-device.cse-bbc-slash-feeds-slash-bk-iot-temp-humid/data";
+    $.ajaxSetup({
+        headers: {
+            'x-aio-key': 'aio_ZwDf70T7nbxuiqpGGw5GQuru1k2D'
+        }
+    });
+    $.ajax({
+        url: tempUrl,
+        type: 'get',
+        success: function(data) {
+            console.log('data temp', data[0]['value']);
+            $('#temp').val(data[0]['value']);
+            $('#temp_text').text(data[0]['value']);
+            var data_new = [];
+            for(var i = 15 ; i >= 0; i--) {
+                console.log('lap temp-'+i, data[i]['value'])
+                const d = new Date(Date.parse(data[i]['expiration']));
+                console.log('time lap temp-'+i, d)
+                data_new.push({y: data[i]['value'], x: d.toLocaleTimeString()});
+            }
+            chartNewTemp.updateSeries([{
+                data: data_new.slice()
+            }])
+        } 
+    });
+}
+function getDataGas() {
+    var gasUrl = "https://io.adafruit.com/api/v2/tinhphamtrung/feeds/intput-device.cse-bbc1-slash-feeds-slash-bk-iot-gas/data";
+    $.ajaxSetup({
+        headers: {
+            'x-aio-key': 'aio_ZwDf70T7nbxuiqpGGw5GQuru1k2D'
+        }
+    });
+    $.ajax({
+        url: gasUrl,
+        type: 'get',
+        success: function(data) {
+            console.log(data[0]['value']);
+            $('#input-gas').val(data[0]['value']);
+            $('#gas_value').text(data[0]['value']);
+        } 
+    });
+}
+
+function getDataSound() {
+    var soundUrl = "https://io.adafruit.com/api/v2/tinhphamtrung/feeds/intput-device.cse-bbc1-slash-feeds-slash-bk-iot-sound/data";
+    $.ajaxSetup({
+        headers: {
+            'x-aio-key': 'aio_ZwDf70T7nbxuiqpGGw5GQuru1k2D'
+        }
+    });
+    $.ajax({
+        url: soundUrl,
+        type: 'get',
+        success: function(data) {
+            console.log(data[0]['value']);
+            $('#input-sound').val(data[0]['value']);
+            $('#sound_text').text(data[0]['value']);
+        } 
+    });
+}
+
+function getChartTemp() {
+    var tempUrlChart = "https://io.adafruit.com/api/v2/tinhphamtrung/feeds/intput-device.cse-bbc-slash-feeds-slash-bk-iot-temp-humid/data/chart";
+    $.ajaxSetup({
+        headers: {
+            'x-aio-key': 'aio_ZwDf70T7nbxuiqpGGw5GQuru1k2D'
+        }
+    });
+    $.ajax({
+        url: tempUrlChart,
+        type: 'get',
+        success: function(data) {
+            console.log("chart", data['data']);
+            // $('#temp').val(data['data']);
+            // $('#temp_text').text(data['data']);
+            chartTemp = data['data']
+            console.log(chartTemp.length);
+        } 
+    });
+}
+</script>
+<script>
+$(document).ready(function () {
+    // getChartTemp();
+    // getDataTemp();
+
+    window.setInterval(function () {
+        // getDataGas();
+        getDataTemp();
+        // getDataSound();
+        // getChartTemp();
+    }, 5000)
+});
 </script>
 <script>
     var lastDate = 0;
+    // var baseval = new Date('11 Feb 2021 GMT').getTime();
     var data = []
+    // var TICKINTERVAL = 5000
     var TICKINTERVAL = 86400000
     let XAXISRANGE = 777600000
+    // let XAXISRANGE = TICKINTERVAL
     
-    function getDayWiseTimeSeries(baseval, count, yrange) {
+    function getDayWiseTime(baseval, count, yrange) {
         var i = 0;
         while (i < count) {
             var x = baseval;
@@ -288,8 +398,8 @@
             i++;
         }
     }
-    
-    getDayWiseTimeSeries(new Date('11 Feb 2021 GMT').getTime(), 10, {
+    var initNum = 10
+    getDayWiseTime(new Date().getTime(), 10, {
         min: 10,
         max: 90
     })
@@ -311,7 +421,6 @@
       y: Math.floor(Math.random() * (yrange.max - yrange.min + 1)) + yrange.min
     })
   }
-
 </script>
 <script>
     // var data = Math.floor(Math.random() * 2)
@@ -327,7 +436,7 @@
                 enabled: true,
                 easing: 'linear',
                 dynamicAnimation: {
-                speed: 1000
+                    speed: 1000
                 }
             },
             toolbar: {
@@ -348,7 +457,7 @@
         },
         xaxis: {
             type: 'datetime',
-            range: XAXISRANGE,
+            // range: XAXISRANGE,
         },
         yaxis: {
             max: 100
@@ -357,10 +466,8 @@
             show: false
         },
     };
-
     var chart = new ApexCharts(document.querySelector("#apex-order-analytics-2"), options);
     chart.render();
-
     window.setInterval(function () {
         getNewSeries(lastDate, {
             min: 10,

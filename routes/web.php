@@ -21,13 +21,11 @@ Route::get('/', function () {
 
 Route::get('dang-nhap',[LoginControllers::class, 'loginView'])->name('login')->middleware('guest:web');
 Route::post('dang-nhap',[LoginControllers::class, 'doLogin'])->name('xl-dang-nhap');
-Route::get('nhiet-do',[DashboardControllers::class, 'callApiDataTemp'])->name('api_nhiet_do');
+// Route::get('nhiet-do',[DashboardControllers::class, 'callApiDataTemp'])->name('api_nhiet_do');
 
 Route::middleware('auth:web')->group(function(){
 	Route::get('dang-xuat','LoginControllers@logout')->name('dang-xuat');
-	Route::get('/', function(){
-		return view('home');
-	})->name('dashboards');
+	Route::get('/', [DashboardControllers::class, 'callApiDataTemp'])->name('dashboards');
 	
 	Route::prefix('tinh-nang')->group(function(){
 		Route::name('tinh-nang.')->group(function(){

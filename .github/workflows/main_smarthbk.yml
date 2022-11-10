@@ -18,7 +18,7 @@ jobs:
       - name: Copy .env
         run: php -r "file_exists('.env') || copy('.env.example', '.env');"
       - name: Install Dependencies
-        run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+        run: composer install --ignore-platform-reqs
       - name: Generate key
         run: php artisan key:generate
 
@@ -32,9 +32,6 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: '7.4'
-
-      - name: composer update
-        run: composer update
 
       - name: Check if composer.json exists
         id: check_files

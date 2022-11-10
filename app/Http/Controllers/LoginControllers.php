@@ -26,7 +26,7 @@ class LoginControllers extends Controller
         Auth::login($login);
         session()->put('login', true);
         session()->put('name', $login->name);
-        return redirect('dashboards');
+        return redirect()->route('dashboards');
     }
 
     public function logout()

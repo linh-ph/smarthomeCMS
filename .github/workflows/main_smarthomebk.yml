@@ -56,5 +56,5 @@ jobs:
         with:
           app-name: 'smarthomeBK'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_BFB0D941D820491FA0CF5B71D6D3E896 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_15B496A3D9D44CA19F41B9B51CE00774 }}
           package: .

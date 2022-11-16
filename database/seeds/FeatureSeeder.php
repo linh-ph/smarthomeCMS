@@ -67,6 +67,20 @@ class FeatureSeeder extends Seeder
                 'min'=> 0,
                 'max'=> 1,
             ]);
+
+            $addFe = Features::create([
+                'name'=> 'Lượng Mưa',
+                'slug'=> 'rain',
+                'min'=> 0,
+                'max'=> 100,
+            ]);
+            if($addFe) {
+                Setting::create([
+                    'feature_id' => $addFe->id,
+                    'muc_canh_bao' => 60,
+                    'trang_thai' => 1,
+                ]);
+            }
         });
     }
 }

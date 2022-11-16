@@ -18,7 +18,7 @@ class UserSeeder extends Seeder
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
         $addAdmin = User::create(
-        	['name'=>'admin','password'=>Hash::make('admin'),'name'=>'Minh Tân', 'email' => 'tanminhvo12340@gmail.com']
+        	['name'=>'admin','password'=>Hash::make('admin'),'name'=>'Smart Home', 'email' => 'admin@gmail.com']
         );
     }
 }

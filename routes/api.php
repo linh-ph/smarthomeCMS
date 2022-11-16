@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\GasControllers;
 use App\Http\Controllers\Api\TempControllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -36,7 +37,11 @@ Route::post('login', 'APIController@login');
 Route::post('logout', 'APIController@logout');
 
 Route::post('quen-mat-khau', 'APIController@quenMatKhau');
+
 Route::get('temp/data', [TempControllers::class, 'getData']);
+Route::get('temp/chart', [TempControllers::class, 'getChart']);
+Route::get('gas/data', [GasControllers::class, 'getData']);
+Route::get('gas/chart', [GasControllers::class, 'getChart']);
 
 Route::group(['middleware' => ['jwt.verify']], function() {
     Route::get('user-info', 'APIcontroller@getUserInfo');

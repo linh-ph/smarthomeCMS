@@ -7,13 +7,16 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
 class DashboardControllers extends Controller
-{
+{   
+
     public function callApiDataTemp() {
 
+        $AIO_KEY = env('AIO_KEY');
+        // dd($AIO_KEY);
         $dataTemp = Features::find(1);
         $tempSlug = $dataTemp->slug;
         $response = Http::withHeaders([
-            'X-AIO-Key' => 'aio_ZwDf70T7nbxuiqpGGw5GQuru1k2D'
+            'X-AIO-Key' => $AIO_KEY
         ])->get('https://io.adafruit.com/api/v2/tinhphamtrung/feeds/intput-device.'.$tempSlug.'/data');
         
         $data = $response->json();
@@ -23,7 +26,7 @@ class DashboardControllers extends Controller
         $dataGas = Features::find(2);
         $gasSlug = $dataGas->slug;
         $response = Http::withHeaders([
-            'X-AIO-Key' => 'aio_ZwDf70T7nbxuiqpGGw5GQuru1k2D'
+            'X-AIO-Key' => $AIO_KEY
         ])->get('https://io.adafruit.com/api/v2/tinhphamtrung/feeds/intput-device.'.$gasSlug.'/data');
         
         $dataGas = $response->json();
@@ -34,7 +37,7 @@ class DashboardControllers extends Controller
         $dataSound = Features::find(3);
         $soundSlug = $dataSound->slug;
         $response = Http::withHeaders([
-            'X-AIO-Key' => 'aio_ZwDf70T7nbxuiqpGGw5GQuru1k2D'
+            'X-AIO-Key' => $AIO_KEY
         ])->get('https://io.adafruit.com/api/v2/tinhphamtrung/feeds/intput-device.'.$soundSlug.'/data');
         
         $dataSound = $response->json();
@@ -45,8 +48,8 @@ class DashboardControllers extends Controller
         for($i = 0; $i < 7; $i++){
             array_push($dataArr,(int) $data[$i]['value']);
         }
-        // dd($dataArr);
+        // dd($AIO_KEY);
         $expiration = $data[0]['expiration'];
-        return view('home', compact('value_temp', 'dataArr', 'valueGas', 'valueSound'));
+        return view('home', compact('value_temp', 'dataArr', 'valueGas', 'valueSound', 'AIO_KEY'));
     }
 }

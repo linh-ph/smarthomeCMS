@@ -1,0 +1,169 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Api SmartHome Documentation",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/": {},
+        "/api/login": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "operationId": "b7a6cf57384075935c06b04fd4cac46c",
+                "parameters": [
+                    {
+                        "name": "email",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "password",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "fcm_token",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "os",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "500": {
+                        "description": "Error server"
+                    }
+                }
+            }
+        },
+        "/api/logout": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "operationId": "4e980fc67d63d30e18eda76380f90a49",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "500": {
+                        "description": "Error server"
+                    }
+                }
+            }
+        },
+        "/api/gas/data": {
+            "get": {
+                "tags": [
+                    "Gas"
+                ],
+                "operationId": "e44ebe3e358f4d621002538286035b9b",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "500": {
+                        "description": "Error server"
+                    }
+                }
+            }
+        },
+        "/api/gas/chart": {
+            "get": {
+                "tags": [
+                    "Gas"
+                ],
+                "operationId": "ad2ef52808c03e14292fdcd40290358d",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "500": {
+                        "description": "Error server"
+                    }
+                }
+            }
+        },
+        "/api/temp/data": {
+            "get": {
+                "tags": [
+                    "Temp"
+                ],
+                "operationId": "d212d9bf6a0f20c40f71c44c35239027",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "500": {
+                        "description": "Error server"
+                    }
+                }
+            }
+        },
+        "/api/temp/chart": {
+            "get": {
+                "tags": [
+                    "Temp"
+                ],
+                "operationId": "ece82fe3b97d7565afd23f84a17ea5a9",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "500": {
+                        "description": "Error server"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "name": "Authorization",
+                "in": "header",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
+            }
+        }
+    }
+}

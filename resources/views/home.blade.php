@@ -188,6 +188,7 @@
         </div> <!-- end card-box -->
     </div> <!-- end col -->
 </div>
+<input type="hidden" id="AIO_KEY" value="{{$AIO_KEY}}">
 <!-- end row -->
 @endsection
 
@@ -204,8 +205,9 @@
 <!-- Dashboard init -->
 <script src="{{ asset('assets/js/pages/dashboard-2.init.js') }}"></script>
 <script>
-    // var data_arr = {{ json_encode($dataArr) }};
-    // console.log(data_arr);
+    var AIO_KEY = $('#AIO_KEY').val();
+    // console.log(AIO_KEY);
+    // do am
     var e = {
         series: [],
         chart: {
@@ -277,27 +279,31 @@
     };
     var chartNewTemp = new ApexCharts(document.querySelector("#apex-sales-analytics-2"), e); 
     chartNewTemp.render();
+
+    var chartNewGas = new ApexCharts(document.querySelector("#apex-order-analytics-2"), e); 
+    chartNewGas.render();
 </script>
+
 <script>
 function getDataTemp() {
     var tempUrl = "https://io.adafruit.com/api/v2/tinhphamtrung/feeds/intput-device.cse-bbc-slash-feeds-slash-bk-iot-temp-humid/data";
     $.ajaxSetup({
         headers: {
-            'x-aio-key': 'aio_ZwDf70T7nbxuiqpGGw5GQuru1k2D'
+            'x-aio-key': AIO_KEY
         }
     });
     $.ajax({
         url: tempUrl,
         type: 'get',
         success: function(data) {
-            console.log('data temp', data[0]['value']);
+            // console.log('data temp', data[0]['value']);
             $('#temp').val(data[0]['value']);
             $('#temp_text').text(data[0]['value']);
             var data_new = [];
             for(var i = 15 ; i >= 0; i--) {
-                console.log('lap temp-'+i, data[i]['value'])
+                // console.log('lap temp-'+i, data[i]['value'])
                 const d = new Date(Date.parse(data[i]['expiration']));
-                console.log('time lap temp-'+i, d)
+                // console.log('time lap temp-'+i, d)
                 data_new.push({y: data[i]['value'], x: d.toLocaleTimeString()});
             }
             chartNewTemp.updateSeries([{
@@ -306,29 +312,40 @@ function getDataTemp() {
         } 
     });
 }
+// khi gas
 function getDataGas() {
     var gasUrl = "https://io.adafruit.com/api/v2/tinhphamtrung/feeds/intput-device.cse-bbc1-slash-feeds-slash-bk-iot-gas/data";
     $.ajaxSetup({
         headers: {
-            'x-aio-key': 'aio_ZwDf70T7nbxuiqpGGw5GQuru1k2D'
+            'x-aio-key': AIO_KEY
         }
     });
     $.ajax({
         url: gasUrl,
         type: 'get',
         success: function(data) {
-            console.log(data[0]['value']);
+            // console.log(data[0]['value']);
             $('#input-gas').val(data[0]['value']);
             $('#gas_value').text(data[0]['value']);
+            var data_new = [];
+            for(var i = 15 ; i >= 0; i--) {
+                // console.log('lap temp-'+i, data[i]['value'])
+                const d = new Date(Date.parse(data[i]['expiration']));
+                // console.log('time lap temp-'+i, d)
+                data_new.push({y: data[i]['value'], x: d.toLocaleTimeString()});
+            }
+            chartNewGas.updateSeries([{
+                data:data_new.slice()
+            }])
         } 
     });
 }
-
+// tieng on
 function getDataSound() {
     var soundUrl = "https://io.adafruit.com/api/v2/tinhphamtrung/feeds/intput-device.cse-bbc1-slash-feeds-slash-bk-iot-sound/data";
     $.ajaxSetup({
         headers: {
-            'x-aio-key': 'aio_ZwDf70T7nbxuiqpGGw5GQuru1k2D'
+            'x-aio-key': AIO_KEY
         }
     });
     $.ajax({
@@ -346,7 +363,7 @@ function getChartTemp() {
     var tempUrlChart = "https://io.adafruit.com/api/v2/tinhphamtrung/feeds/intput-device.cse-bbc-slash-feeds-slash-bk-iot-temp-humid/data/chart";
     $.ajaxSetup({
         headers: {
-            'x-aio-key': 'aio_ZwDf70T7nbxuiqpGGw5GQuru1k2D'
+            'x-aio-key': AIO_KEY
         }
     });
     $.ajax({
@@ -368,13 +385,14 @@ $(document).ready(function () {
     // getDataTemp();
 
     window.setInterval(function () {
-        // getDataGas();
+        getDataGas();
         getDataTemp();
-        // getDataSound();
+        getDataSound();
         // getChartTemp();
     }, 5000)
 });
 </script>
+<!-- chart realtime -->
 <script>
     var lastDate = 0;
     // var baseval = new Date('11 Feb 2021 GMT').getTime();
@@ -421,8 +439,6 @@ $(document).ready(function () {
       y: Math.floor(Math.random() * (yrange.max - yrange.min + 1)) + yrange.min
     })
   }
-</script>
-<script>
     // var data = Math.floor(Math.random() * 2)
     var options = {
         series: [{
@@ -466,18 +482,18 @@ $(document).ready(function () {
             show: false
         },
     };
-    var chart = new ApexCharts(document.querySelector("#apex-order-analytics-2"), options);
-    chart.render();
-    window.setInterval(function () {
-        getNewSeries(lastDate, {
-            min: 10,
-            max: 90
-        })
-        console.log('date',lastDate)
-        console.log('data',data)
-        chart.updateSeries([{
-            data: data
-        }])
-    }, 5000)
+    // var chart = new ApexCharts(document.querySelector("#"), options);
+    // chart.render();
+    // window.setInterval(function () {
+    //     getNewSeries(lastDate, {
+    //         min: 10,
+    //         max: 90
+    //     })
+    //     console.log('date',lastDate)
+    //     console.log('data',data)
+    //     chart.updateSeries([{
+    //         data: data
+    //     }])
+    // }, 5000)
 </script>
 @endsection

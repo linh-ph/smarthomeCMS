@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use App\Features;
+use App\Setting;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -59,8 +60,14 @@ class FeatureController extends Controller
         } else {
             $feature = new Features();
             $feature->name = $request->name;
-            $feature->status = $request->status;
+            $feature->slug = $request->slug;
+            $feature->min = $request->min;
+            $feature->max = $request->max;
             $feature->save();
+            $setting = new Setting();
+            $setting->muc_canh_bao = $request->muc_canh_bao??NULL;
+            $setting->feature_id = $feature->id;
+            $setting->save();
             return redirect('tinh-nang')->with('success', 'Thêm thành công!');
         }
     }
@@ -108,7 +115,9 @@ class FeatureController extends Controller
             return redirect('tinh-nang')->with('error', 'Cập nhật không thành công!');
         } else {
             $features->name = $request->name;
-            $features->status = $request->status;
+            $features->slug = $request->slug;
+            $features->min = $request->min;
+            $features->max = $request->max;
             $features->save();
             return redirect('tinh-nang')->with('success', 'Cập nhật thành công!');
         }

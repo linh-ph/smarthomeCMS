@@ -361,7 +361,7 @@
                     </li>
 
                     <li class="has-submenu">
-                        <a href="{{ route('nguoi-dung.danh-sach') }}"><i class="fas fa-user"></i>Người dùng</a>
+                        <a href="{{ route('nguoi-dung.danh-sach') }}"><i class="fas fa-user"></i>Người dùng <div class="arrow-down"></div></a>
                         <ul class="submenu">
                             <li>
                                 <a href="{{ route('nguoi-dung.them-moi') }}">Thêm người dùng</a>
@@ -373,23 +373,9 @@
                     </li>
 
                     <li class="has-submenu">
-                        <a href="{{ route('nguoi-dung.thong-ke') }}">
-                            <i class="fas fa-chart-bar"></i>Thống kê <div class="arrow-down"></div>
+                        <a href="{{ route('setting.danh-sach') }}">
+                            <i class="fas fa-chart-bar"></i>Cài đặt
                         </a>
-                        <ul class="submenu">
-                        <li>
-                            <a href="{{ route('nguoi-dung.thong-ke') }}">Thống kê số người chơi đăng kí</a>
-                        </li>
-                        <li>
-                            <a href="{{ route('nguoi-dung.thong-ke-diem') }}">Top 10 người chơi điểm cao</a>
-                        </li>
-                        <li>
-                            <a href="{{ route('thong-ke.thong-ke-doanh-thu') }}">Thống kê doanh thu</a>
-                        </li>
-                        <li>
-                             <a href="{{ route('thong-ke.thong-ke-nguoi-mua-credit') }}">Top 10 người mua Credit cao nhất</a>
-                        </li>
-                    </ul>
                     </li>
 
                     <li class="has-submenu">

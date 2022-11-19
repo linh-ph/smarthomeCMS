@@ -4,6 +4,11 @@
 <link href="{{ asset('assets/libs/datatables/dataTables.bootstrap4.css') }}" rel="stylesheet" type="text/css" />
 <link href="{{ asset('assets/libs/datatables/responsive.bootstrap4.css') }}" rel="stylesheet" type="text/css" />
 <!-- third party css end -->
+<link href="assets/libs/jquery-nice-select/nice-select.css" rel="stylesheet" type="text/css" />
+<link href="assets/libs/switchery/switchery.min.css" rel="stylesheet" type="text/css" />
+<link href="assets/libs/select2/select2.min.css" rel="stylesheet" type="text/css" />
+<link href="assets/libs/bootstrap-select/bootstrap-select.min.css" rel="stylesheet" type="text/css" />
+<link href="assets/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.css" rel="stylesheet" type="text/css" />
 @endsection
 
 @section('main-content')
@@ -31,7 +36,7 @@
                         data-thickness=".15"/>
                 </div>
                 <div class="text-right">
-                    <h2 id="temp_text" class="mt-3 pt-1 mb-1"> {{ $value_temp ?? 30 }}(°C) </h2>
+                    <h2 id="temp_text" class="mt-3 pt-1 mb-1"> {{ $value_temp ?? 30 }}</h2><span>(°C)</span>
                     <p class="text-muted mb-0">Xem lịch sử</p>
                 </div>
                 <div class="clearfix"></div>
@@ -73,7 +78,7 @@
                         data-thickness=".15"/>
                 </div>
                 <div class="text-right">
-                    <h2 id="sound_text" class="mt-3 pt-1 mb-1"> {{$valueSound ?? 10}}(dB)</h2>
+                    <h2 id="sound_text" class="mt-3 pt-1 mb-1"> {{$valueSound ?? 10}}</h2><span>(dB)</span>
                     <p class="text-muted mb-0">Xem lịch sử</p>
                 </div>
                 <div class="clearfix"></div>
@@ -88,16 +93,12 @@
 
             <div class="mt-1">
                 <div class="float-left" dir="ltr">
-                    <div class="col-lg-6">
-                        <div class="switchery-demo">
-                            <input type="checkbox" checked data-plugin="switchery" data-color="#1bb99a"/>
-                        </div>
-                    </div>
+                    <input type="checkbox" @if($valueLight) checked @endif data-plugin="switchery" data-color="#1bb99a"/>
                 </div>
-                <div class="text-right">
-                    <h2 class="mt-3 pt-1 mb-1"> {{$valueLight}} </h2>
+                <!-- <div class="text-right">
+                    <h2 class="mt-3 pt-1 mb-1"> {{$valueLight}} </h2> -->
                     <!-- <p class="text-muted mb-0">Revenue today</p> -->
-                </div>
+                <!-- </div> -->
                 <div class="clearfix"></div>
             </div>
         </div>
@@ -203,6 +204,15 @@
 <script src="{{ asset('assets/libs/datatables/dataTables.responsive.min.js') }}"></script>
 <script src="{{ asset('assets/libs/datatables/responsive.bootstrap4.min.js') }}"></script>
 <!-- third party js ends -->
+<script src="assets/libs/jquery-nice-select/jquery.nice-select.min.js"></script>
+<script src="assets/libs/switchery/switchery.min.js"></script>
+<script src="assets/libs/select2/select2.min.js"></script>
+<script src="assets/libs/bootstrap-select/bootstrap-select.min.js"></script>
+<script src="assets/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.js"></script>
+<script src="assets/libs/bootstrap-maxlength/bootstrap-maxlength.min.js"></script>
+
+<!-- Init js-->
+<script src="assets/js/pages/form-advanced.init.js"></script>
 <!-- Dashboard init -->
 <script src="{{ asset('assets/js/pages/dashboard-2.init.js') }}"></script>
 <script>

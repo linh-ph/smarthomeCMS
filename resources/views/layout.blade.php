@@ -12,7 +12,6 @@
         <!-- Sweet Alert-->
         
         @yield('css')
-        
 
         <!-- App css -->
         <link href="{{asset('assets/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />

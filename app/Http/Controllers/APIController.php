@@ -223,7 +223,7 @@ class APIController extends Controller
 
     public function getNotification(Request $request)
     {
-        $notification = NotificationLog::where('user_id', JWTAuth::user()->id)->paginate(15);
+        $notification = NotificationLog::where('user_id', JWTAuth::user()->id)->orderBy('id', 'desc')->paginate(15);
 
         return response()->json(['status' => true, 'notification' => $notification]);
     }

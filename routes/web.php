@@ -57,6 +57,13 @@ Route::middleware('auth:web')->group(function(){
 		});
 	});
 
+	Route::prefix('setting')->group(function(){
+		Route::name('setting.')->group(function(){
+			Route::get('/','SettingController@index')->name('danh-sach');
+			Route::post('/cap-nhat/{id}', 'SettingController@update')->name('xl-cap-nhat');
+		});
+	});
+
 	Route::prefix('quan-tri-vien')->group(function(){
 		Route::name('quan-tri-vien.')->group(function(){
 			Route::get('/','QuanTriVienController@index')->name('danh-sach');

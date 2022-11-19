@@ -10,4 +10,9 @@ class Setting extends Model
     use SoftDeletes;
 
     protected $table = 'settings';
+
+    public function feature()
+    {
+        return $this->belongsTo('App\Features', 'feature_id', 'id');
+    }
 }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\FlightControllers;
 use App\Http\Controllers\Api\GasControllers;
 use App\Http\Controllers\Api\TempControllers;
 use Illuminate\Http\Request;
@@ -42,6 +43,9 @@ Route::get('temp/data', [TempControllers::class, 'getData']);
 Route::get('temp/chart', [TempControllers::class, 'getChart']);
 Route::get('gas/data', [GasControllers::class, 'getData']);
 Route::get('gas/chart', [GasControllers::class, 'getChart']);
+Route::get('lights/data', [FlightControllers::class, 'getData']);
+Route::post('lights/turn-on', [FlightControllers::class, 'turnOn']);
+Route::post('lights/turn-off', [FlightControllers::class, 'turnOff']);
 
 Route::group(['middleware' => ['jwt.verify']], function() {
     Route::get('user-info', 'APIcontroller@getUserInfo');

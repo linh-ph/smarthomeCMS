@@ -41,15 +41,26 @@ class DashboardControllers extends Controller
         ])->get('https://io.adafruit.com/api/v2/tinhphamtrung/feeds/intput-device.'.$soundSlug.'/data');
         
         $dataSound = $response->json();
+        // dd($dataSound);
         $valueSound = (int) $dataSound[0]['value'];
         ///
-        $dataArr = [];
+        // $dataArr = [];
 
-        for($i = 0; $i < 7; $i++){
-            array_push($dataArr,(int) $data[$i]['value']);
-        }
-        // dd($AIO_KEY);
-        $expiration = $data[0]['expiration'];
-        return view('home', compact('value_temp', 'dataArr', 'valueGas', 'valueSound', 'AIO_KEY'));
+        // for($i = 0; $i < 7; $i++){
+        //     array_push($dataArr,(int) $data[$i]['value']);
+        // }
+        // // $expiration = $data[0]['expiration'];
+        /// LIGHT
+        $dataLight = Features::find(6);
+        $lightSlug = $dataLight->slug;
+        $response = Http::withHeaders([
+            'X-AIO-Key' => $AIO_KEY
+        ])->get('https://io.adafruit.com/api/v2/tinhphamtrung/feeds/intput-device.'.$lightSlug.'/data');
+        
+        $dataLight = $response->json();
+        // dd($dataLight);
+        $valueLight = (int) $dataLight[0]['value'];
+        ///
+        return view('home', compact('value_temp', 'valueGas', 'valueSound', 'AIO_KEY', 'valueLight'));
     }
 }

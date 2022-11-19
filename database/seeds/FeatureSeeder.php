@@ -81,6 +81,13 @@ class FeatureSeeder extends Seeder
                     'trang_thai' => 1,
                 ]);
             }
+
+            $addFe = Features::create([
+                'name'=> 'Đèn',
+                'slug'=> 'cse-bbc1-slash-feeds-slash-bk-iot-light',
+                'min'=> 0,
+                'max'=> 1023,
+            ]);
         });
     }
 }

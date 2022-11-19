@@ -78,6 +78,63 @@
                 }
             }
         },
+        "/api/lights/data": {
+            "get": {
+                "tags": [
+                    "Lights"
+                ],
+                "operationId": "418929c2f8da1299d70dce4b28b04cd1",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "500": {
+                        "description": "Error server"
+                    }
+                }
+            }
+        },
+        "/api/lights/turn-on": {
+            "post": {
+                "tags": [
+                    "Lights"
+                ],
+                "operationId": "27083967d53fe265c47acece9f58f269",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "500": {
+                        "description": "Error server"
+                    }
+                }
+            }
+        },
+        "/api/lights/turn-off": {
+            "post": {
+                "tags": [
+                    "Lights"
+                ],
+                "operationId": "831e3bdbff81260098fdf8bd5e83d396",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "500": {
+                        "description": "Error server"
+                    }
+                }
+            }
+        },
         "/api/gas/data": {
             "get": {
                 "tags": [

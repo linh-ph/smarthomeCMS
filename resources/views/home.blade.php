@@ -31,7 +31,7 @@
                         data-thickness=".15"/>
                 </div>
                 <div class="text-right">
-                    <h2 id="temp_text" class="mt-3 pt-1 mb-1"> {{ $value_temp ?? 30 }} </h2>
+                    <h2 id="temp_text" class="mt-3 pt-1 mb-1"> {{ $value_temp ?? 30 }}(°C) </h2>
                     <p class="text-muted mb-0">Xem lịch sử</p>
                 </div>
                 <div class="clearfix"></div>
@@ -63,7 +63,7 @@
     <div class="col-xl-3 col-md-6">
         <div class="card-box">
 
-            <h4 class="header-title mt-0 mb-3">Tiếng Ồn</h4>
+            <h4 class="header-title mt-0 mb-3">Âm thanh</h4>
 
             <div class="mt-1">
                 <div class="float-left" dir="ltr">
@@ -73,7 +73,7 @@
                         data-thickness=".15"/>
                 </div>
                 <div class="text-right">
-                    <h2 id="sound_text" class="mt-3 pt-1 mb-1"> {{$valueSound ?? 10}} </h2>
+                    <h2 id="sound_text" class="mt-3 pt-1 mb-1"> {{$valueSound ?? 10}}(dB)</h2>
                     <p class="text-muted mb-0">Xem lịch sử</p>
                 </div>
                 <div class="clearfix"></div>
@@ -84,18 +84,19 @@
     <div class="col-xl-3 col-md-6">
         <div class="card-box">
 
-            <h4 class="header-title mt-0 mb-3">Đèn điện</h4>
+            <h4 class="header-title mt-0 mb-3">Đèn</h4>
 
             <div class="mt-1">
                 <div class="float-left" dir="ltr">
-                    <input data-plugin="knob" data-width="64" data-height="64" data-fgColor="#ffbd4a"
-                        data-bgColor="#FFE6BA" value="35"
-                        data-skin="tron" data-angleOffset="180" data-readOnly=true
-                        data-thickness=".15"/>
+                    <div class="col-lg-6">
+                        <div class="switchery-demo">
+                            <input type="checkbox" checked data-plugin="switchery" data-color="#1bb99a"/>
+                        </div>
+                    </div>
                 </div>
                 <div class="text-right">
-                    <h2 class="mt-3 pt-1 mb-1"> $78.58 </h2>
-                    <p class="text-muted mb-0">Revenue today</p>
+                    <h2 class="mt-3 pt-1 mb-1"> {{$valueLight}} </h2>
+                    <!-- <p class="text-muted mb-0">Revenue today</p> -->
                 </div>
                 <div class="clearfix"></div>
             </div>
@@ -160,7 +161,7 @@
 </div>
 <!-- end row -->
 
-<div class="row">
+<!-- <div class="row">
     <div class="col-xl-4">
         <div class="card-box">
             <h4 class="header-title">Earning Reports</h4>
@@ -185,9 +186,9 @@
                 <span data-plugin="peity-bar" data-colors="#f7b84b,#ebeff2" data-width="100%" data-height="80">5,3,9,6,5,9,7,3,5,2,9,7,2,1,3,5,2,9,7,2,5,3,9,6,5,9,7</span>
             </div>
 
-        </div> <!-- end card-box -->
-    </div> <!-- end col -->
-</div>
+        </div>
+    </div>
+</div> -->
 <input type="hidden" id="AIO_KEY" value="{{$AIO_KEY}}">
 <!-- end row -->
 @endsection

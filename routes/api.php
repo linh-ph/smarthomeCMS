@@ -20,20 +20,20 @@ use Illuminate\Support\Facades\Route;
 // Route::middleware('auth:api')->get('/user', function (Request $request) {
 //     return $request->user();
 // });
-Route::group([
-    'middleware' => 'api',
-    'prefix' => 'v1'
+// Route::group([
+//     'middleware' => 'api',
+//     'prefix' => 'v1'
 
-], function ($router) {
-});
+// ], function ($router) {
+// });
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::prefix('/auth')->middleware('api')->group(function () {
-    Route::post('login', 'APIController@login');
-    Route::post('logout', 'APIController@logout');
-});
+// Route::prefix('/auth')->middleware('api')->group(function () {
+//     Route::post('login', 'APIController@login');
+//     Route::post('logout', 'APIController@logout');
+// });
 Route::post('login', 'APIController@login');
 Route::post('logout', 'APIController@logout');
 
@@ -47,10 +47,9 @@ Route::get('lights/data', [FlightControllers::class, 'getData']);
 Route::post('lights/turn-on', [FlightControllers::class, 'turnOn']);
 Route::post('lights/turn-off', [FlightControllers::class, 'turnOff']);
 
-Route::group(['middleware' => ['jwt.verify']], function() {
+Route::group(['middleware' => ['jwt.verify']], function () {
     Route::get('user-info', 'APIcontroller@getUserInfo');
     Route::get('get-notification', 'APIController@getNotification');
-    
 });
 
 Route::middleware('jwt.auth')->group(function () {

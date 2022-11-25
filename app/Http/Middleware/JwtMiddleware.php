@@ -20,9 +20,9 @@ class JwtMiddleware
         try {
             $user = JWTAuth::parseToken()->authenticate();
         } catch (Exception $e) {
-            return response()->json(-1);
+            return response()->json('Khong dang nhap');
         } catch (\Tymon\JWTAuth\Exceptions\TokenBlacklistedException $e) {
-            return response()->json(-1);
+            return response()->json($e);
         }
         return $next($request);
     }

@@ -60,8 +60,8 @@ class APIController extends Controller
      *          response=500,
      *          description="Error server",
      *      )
-    * )
-    */    
+     * )
+     */
     public function login(Request $request)
     {
         $email = $request->email;
@@ -80,9 +80,9 @@ class APIController extends Controller
             $device = new Devices();
             $device->fcm_token = $request->fcm_token;
             $device->user_id = $data->id;
-            $device->OS = $request->os??NULL;
-            $device->id_device = $request->device_id??NULL;
-            $device->name = $request->device_name??NULL;
+            $device->OS = $request->os ?? NULL;
+            $device->id_device = $request->device_id ?? NULL;
+            $device->name = $request->device_name ?? NULL;
             $device->save();
             $notification = new NotificationLog();
             $notification->title = 'Bạn vừa đăng nhập trên thiết bị mới (' . $request->device_name . ')';
@@ -117,8 +117,8 @@ class APIController extends Controller
      *          response=500,
      *          description="Error server",
      *      )
-    * )
-    */    
+     * )
+     */
     public function logout(Request $request)
     {
         try {
@@ -209,15 +209,15 @@ class APIController extends Controller
 
                 return response()->json($user);
             }
-            return response()->json(-1);
+            return response()->json('Vui long dang nhap');
         } catch (\Tymon\JWTAuth\Exceptions\TokenExpiredException $e) {
-            return response()->json(-1);
+            return response()->json('Token het han roi');
         } catch (\Tymon\JWTAuth\Exceptions\TokenInvalidException $e) {
-            return response()->json(-1);
+            return response()->json('Token het han');
         } catch (\Tymon\JWTAuth\Exceptions\JWTException $e) {
-            return response()->json(-1);
+            return response()->json('Sai token');
         } catch (\Tymon\JWTAuth\Exceptions\TokenBlacklistedException $e) {
-            return response()->json(-1);
+            return response()->json($e);
         }
     }
 

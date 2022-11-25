@@ -2,23 +2,29 @@
 
 namespace App\Http\Controllers;
 
+use App\Api\PushNotification;
 use App\Features;
+use App\User;
+use Exception;
+use Illuminate\Database\Query\JoinClause;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use PhpParser\Node\Stmt\TryCatch;
 
 class DashboardControllers extends Controller
-{   
+{
 
-    public function callApiDataTemp() {
-
+    public function callApiDataTemp()
+    {
+        /////////////
         $AIO_KEY = env('AIO_KEY');
         // dd($AIO_KEY);
         $dataTemp = Features::find(1);
         $tempSlug = $dataTemp->slug;
         $response = Http::withHeaders([
             'X-AIO-Key' => $AIO_KEY
-        ])->get('https://io.adafruit.com/api/v2/tinhphamtrung/feeds/intput-device.'.$tempSlug.'/data');
-        
+        ])->get('https://io.adafruit.com/api/v2/tinhphamtrung/feeds/intput-device.' . $tempSlug . '/data');
+
         $data = $response->json();
         $value_temp = (int) $data[0]['value'];
 
@@ -27,8 +33,8 @@ class DashboardControllers extends Controller
         $gasSlug = $dataGas->slug;
         $response = Http::withHeaders([
             'X-AIO-Key' => $AIO_KEY
-        ])->get('https://io.adafruit.com/api/v2/tinhphamtrung/feeds/intput-device.'.$gasSlug.'/data');
-        
+        ])->get('https://io.adafruit.com/api/v2/tinhphamtrung/feeds/intput-device.' . $gasSlug . '/data');
+
         $dataGas = $response->json();
         $valueGas = (int) $dataGas[0]['value'];
         ///
@@ -38,8 +44,8 @@ class DashboardControllers extends Controller
         $soundSlug = $dataSound->slug;
         $response = Http::withHeaders([
             'X-AIO-Key' => $AIO_KEY
-        ])->get('https://io.adafruit.com/api/v2/tinhphamtrung/feeds/intput-device.'.$soundSlug.'/data');
-        
+        ])->get('https://io.adafruit.com/api/v2/tinhphamtrung/feeds/intput-device.' . $soundSlug . '/data');
+
         $dataSound = $response->json();
         // dd($dataSound);
         $valueSound = (int) $dataSound[0]['value'];
@@ -55,8 +61,8 @@ class DashboardControllers extends Controller
         $lightSlug = $dataLight->slug;
         $response = Http::withHeaders([
             'X-AIO-Key' => $AIO_KEY
-        ])->get('https://io.adafruit.com/api/v2/tinhphamtrung/feeds/intput-device.'.$lightSlug.'/data');
-        
+        ])->get('https://io.adafruit.com/api/v2/tinhphamtrung/feeds/intput-device.' . $lightSlug . '/data');
+
         $dataLight = $response->json();
         // dd($dataLight);
         $valueLight = (int) $dataLight[0]['value'];

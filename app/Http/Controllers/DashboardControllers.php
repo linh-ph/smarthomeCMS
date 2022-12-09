@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Devices;
 use App\Features;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
@@ -10,7 +11,11 @@ class DashboardControllers extends Controller
 {   
 
     public function callApiDataTemp() {
-
+        // $fcm_tokens = Devices::select('fcm_token')->get()->toArray();
+        // // dd($fcm_token);
+        // foreach($fcm_tokens as $fcm){
+        //     dd($fcm['fcm_token']);
+        // }
         $AIO_KEY = env('AIO_KEY');
         // dd($AIO_KEY);
         $dataTemp = Features::find(1);

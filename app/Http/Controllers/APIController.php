@@ -75,17 +75,30 @@ class APIController extends Controller
         $data = User::where('email', $request->email)->first();
         $data->remember_token = $token;
         $data->save();
-        $checkDevice = Devices::where([['user_id', $data->id], ['id_device', $request->device_id]])->first();
+        $checkDevice = Devices::where([['user_id', $data->id], ['fcm_token', $request->fcm_token]])->first();
         if (!isset($checkDevice)) {
-            $device = new Devices();
-            $device->fcm_token = $request->fcm_token;
-            $device->user_id = $data->id;
-            $device->OS = $request->os??NULL;
-            $device->id_device = $request->device_id??NULL;
-            $device->name = $request->device_name??NULL;
-            $device->save();
+            $checkDevice = Devices::where('user_id', $data->id)->get();
+            if (count($checkDevice) > 3) {
+                $device = Devices::where('user_id', $data->id)->orderBy('id', 'asc')->first();
+                $device->fcm_token = $request->fcm_token;
+                if (isset($request->os)) {
+                    $device->OS = $request->os;
+                }
+                $device->save();
+                foreach ($checkDevice as $dv) {
+                    PushNotification::sendNotification($dv->fcm_token, 'Bạn vừa đăng nhập trên thiết bị mới!', 'Nếu không phải Bạn đang thực hiện đăng nhập, vui lòng mở ứng dụng/trang web và ĐỔI MẬT KHẨU ngay lập tức để bảo vệ tài khoản của bạn!', 'Notification');
+                }
+            } else {
+                $device = new Devices();
+                $device->fcm_token = $request->fcm_token;
+                $device->user_id = $data->id;
+                if (isset($request->os)) {
+                    $device->OS = $request->os;
+                }
+                $device->save();
+            }
             $notification = new NotificationLog();
-            $notification->title = 'Bạn vừa đăng nhập trên thiết bị mới (' . $request->device_name . ')';
+            $notification->title = 'Bạn vừa đăng nhập trên thiết bị mới';
             $notification->message = 'Nếu không phải Bạn đang thực hiện đăng nhập, vui lòng mở ứng dụng/trang web và ĐỔI MẬT KHẨU ngay lập tức để bảo vệ tài khoản của bạn!';
             $notification->user_id = $data->id;
             $notification->save();
@@ -223,7 +236,7 @@ class APIController extends Controller
 
     public function getNotification(Request $request)
     {
-        $notification = NotificationLog::where('user_id', JWTAuth::user()->id)->orderBy('id', 'desc')->paginate(15);
+        $notification = NotificationLog::where('user_id', JWTAuth::user()->id)->paginate(15);
 
         return response()->json(['status' => true, 'notification' => $notification]);
     }

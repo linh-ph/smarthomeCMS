@@ -69,6 +69,7 @@ class DashboardControllers extends Controller
         $dataLight = $response->json();
         // dd($dataLight);
         $valueLight = (int) $dataLight[0]['value'];
+        // dd($valueLight);
         ///
         return view('home', compact('value_temp', 'valueGas', 'valueSound', 'AIO_KEY', 'valueLight'));
     }

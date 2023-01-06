@@ -93,7 +93,7 @@
 
             <div class="mt-1">
                 <div class="float-left" dir="ltr">
-                    <input type="checkbox" @if($valueLight) checked @endif data-plugin="switchery" data-color="#1bb99a"/>
+                    <input id="checkbox_light" type="checkbox" @if($valueLight == 1) checked @endif data-plugin="switchery" data-color="#1bb99a"/>
                 </div>
                 <!-- <div class="text-right">
                     <h2 class="mt-3 pt-1 mb-1"> {{$valueLight}} </h2> -->
@@ -506,5 +506,49 @@ $(document).ready(function () {
     //         data: data
     //     }])
     // }, 5000)
+</script>
+<!-- light -->
+<script>
+document.getElementById("checkbox_light").addEventListener("change", function(){
+    if(this.checked){
+        $.ajax({
+            url: 'https://io.adafruit.com/api/v2/tinhphamtrung/feeds/intput-device.cse-bbc1-slash-feeds-slash-bk-iot-light/data',
+            type: 'POST',
+            headers: {
+                'X-AIO-Key': 'aio_vUyi64X73Roekv6icLcHZxjC28qA',
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            data: {
+                value: 1
+            },
+            success: function(data) {
+                console.log("light", data);
+            },
+            error: function (error){
+                console.log('log error light', error);
+            }
+            
+        });
+    }else{
+        $.ajax({
+            url: 'https://io.adafruit.com/api/v2/tinhphamtrung/feeds/intput-device.cse-bbc1-slash-feeds-slash-bk-iot-light/data',
+            type: 'POST',
+            headers: {
+                'X-AIO-Key': 'aio_vUyi64X73Roekv6icLcHZxjC28qA',
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            data: {
+                value: 0
+            },
+            success: function(data) {
+                console.log("light", data);
+            },
+            error: function (error){
+                console.log('log error light', error);
+            }
+            
+        });
+    }
+})
 </script>
 @endsection

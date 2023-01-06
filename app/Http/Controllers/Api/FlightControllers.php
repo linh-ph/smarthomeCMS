@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Api;
 
 use App\Features;
+use App\HistoryFeature;
 use App\Http\Controllers\Controller;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use JWTAuth;
 
 class FlightControllers extends Controller
 {
@@ -78,13 +80,19 @@ class FlightControllers extends Controller
 
         $response = Http::asMultipart()
         ->withHeaders([
-            'X-AIO-Key' => 'aio_vUyi64X73Roekv6icLcHZxjC28qA',
+            'X-AIO-Key' => 'aio_rAxg25C7hm6lA9FwXaIqMkAB1DXa',
         ])
         ->post('https://io.adafruit.com/api/v2/tinhphamtrung/feeds/intput-device.cse-bbc1-slash-feeds-slash-bk-iot-light/data', [
             'value' => 1,
         ]);
         
         $dataLight = $response->json();
+
+        $history = new HistoryFeature();
+        $history->user_id = JWTAuth::user()->id;
+        $history->feature_id = 6;
+        $history->status = 'Đã bật đèn';
+        $history->save();
 
         return response()->json([
             'status' => 'success',
@@ -118,13 +126,19 @@ class FlightControllers extends Controller
 
         $response = Http::asMultipart()
         ->withHeaders([
-            'X-AIO-Key' => 'aio_vUyi64X73Roekv6icLcHZxjC28qA',
+            'X-AIO-Key' => 'aio_rAxg25C7hm6lA9FwXaIqMkAB1DXa',
         ])
         ->post('https://io.adafruit.com/api/v2/tinhphamtrung/feeds/intput-device.cse-bbc1-slash-feeds-slash-bk-iot-light/data', [
             'value' => 0,
         ]);
         
         $dataLight = $response->json();
+
+        $history = new HistoryFeature();
+        $history->user_id = JWTAuth::user()->id;
+        $history->feature_id = 6;
+        $history->status = 'Đã tắt đèn';
+        $history->save();
 
         return response()->json([
             'status' => 'success',

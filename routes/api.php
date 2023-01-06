@@ -44,12 +44,13 @@ Route::get('temp/chart', [TempControllers::class, 'getChart']);
 Route::get('gas/data', [GasControllers::class, 'getData']);
 Route::get('gas/chart', [GasControllers::class, 'getChart']);
 Route::get('lights/data', [FlightControllers::class, 'getData']);
-Route::post('lights/turn-on', [FlightControllers::class, 'turnOn']);
-Route::post('lights/turn-off', [FlightControllers::class, 'turnOff']);
 
 Route::group(['middleware' => ['jwt.verify']], function () {
     Route::get('user-info', 'APIcontroller@getUserInfo');
     Route::get('get-notification', 'APIController@getNotification');
+    Route::post('lights/turn-on', [FlightControllers::class, 'turnOn']);
+    Route::post('lights/turn-off', [FlightControllers::class, 'turnOff']);
+    Route::get('history', 'APIcontroller@getHistory');
 });
 
 Route::middleware('jwt.auth')->group(function () {

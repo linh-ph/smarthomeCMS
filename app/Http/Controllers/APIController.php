@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Api\PushNotification;
 use App\Devices;
+use App\HistoryFeature;
 use App\NotificationLog;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
@@ -239,5 +240,12 @@ class APIController extends Controller
         $notification = NotificationLog::where('user_id', JWTAuth::user()->id)->paginate(15);
 
         return response()->json(['status' => true, 'notification' => $notification]);
+    }
+
+    public function getHistory(Request $request)
+    {
+        $history = HistoryFeature::where('user_id', JWTAuth::user()->id)->get();
+
+        return response()->json(['status' => true, 'history' => $history]);
     }
 }

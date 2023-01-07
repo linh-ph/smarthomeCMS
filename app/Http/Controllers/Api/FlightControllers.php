@@ -80,7 +80,7 @@ class FlightControllers extends Controller
 
         $response = Http::asMultipart()
         ->withHeaders([
-            'X-AIO-Key' => 'aio_rAxg25C7hm6lA9FwXaIqMkAB1DXa',
+            'X-AIO-Key' => $AIO_KEY,
         ])
         ->post('https://io.adafruit.com/api/v2/tinhphamtrung/feeds/intput-device.cse-bbc1-slash-feeds-slash-bk-iot-light/data', [
             'value' => 1,
@@ -126,7 +126,7 @@ class FlightControllers extends Controller
 
         $response = Http::asMultipart()
         ->withHeaders([
-            'X-AIO-Key' => 'aio_rAxg25C7hm6lA9FwXaIqMkAB1DXa',
+            'X-AIO-Key' => $AIO_KEY,
         ])
         ->post('https://io.adafruit.com/api/v2/tinhphamtrung/feeds/intput-device.cse-bbc1-slash-feeds-slash-bk-iot-light/data', [
             'value' => 0,

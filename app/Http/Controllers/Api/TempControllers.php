@@ -81,7 +81,7 @@ class TempControllers extends Controller
             'X-AIO-Key' => $AIO_KEY
         ])->get('https://io.adafruit.com/api/v2/tinhphamtrung/feeds/intput-device.'.$tempSlug.'/data');
         
-        $dataCollect = collect($response->json())->take(15);
+        $dataCollect = collect($response->json())->take(8);
 
         $date = timezone_identifiers_list();
 
